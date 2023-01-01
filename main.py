@@ -3,7 +3,7 @@ from flask import Flask, request, redirect, url_for, render_template, send_from_
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = '/home/ubuntu/thecloud'
+UPLOAD_FOLDER = '/home/ubuntu/cloud_data'
 #ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 def allowed_file(filename):
