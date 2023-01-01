@@ -1,25 +1,30 @@
-<style>
-  body {
-    background-color: black;
-    color: white;
-  }
-  .picture {
-    display: inline-block;
-    width: 200px;
-    height: 200px;
-    background-size: cover;
-    background-position: center;
-    margin: 10px;
-  }
-</style>
+<html>
+  <head>
+    <style>
+      body {
+        background-color: black;
+        color: white;
+      }
+      .picture {
+        display: inline-block;
+        width: 200px;
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <form method="POST" enctype="multipart/form-data">
+      <input type="file" name="file">
+      <input type="submit" value="Upload">
+    </form>
 
-<form method="POST" enctype="multipart/form-data">
-  <input type="file" name="file">
-  <input type="submit" value="Upload">
-</form>
-
-{% for file in files %}
-  <div class="picture" style="background-image: url({{ url_for('static', filename='uploads/' + file) }});">
-    <a href="{{ url_for('download', filename=file) }}">Download</a>
-  </div>
-{% endfor %}
+    {% for file in files %}
+      <div class="picture" style="background-image: url({{ url_for('static', filename='uploads/' + file) }});">
+        <a href="{{ url_for('download', filename=file) }}">Download</a>
+      </div>
+    {% endfor %}
+  </body>
+</html>
