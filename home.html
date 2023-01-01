@@ -26,23 +26,7 @@
       }
       .cool-button:hover {
         background-color: #0069d9;
-      }
-      .view-button {
-        background-color: #17a2b8;
-        border: none;
-        color: white;
-        padding: 10px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-      }
-      .view-button:hover {
-        background-color: #138496;
-      }
-      .clear {
-        clear: both;
-      }
+  } 
     </style>
   </head>
   <body>
@@ -61,13 +45,7 @@
         {{ file }}
         <br>
         <a href="{{ url_for('download', filename=file) }}" class="cool-button">Download</a>
-        {% if file.endswith('.png') or file.endswith('.jpg') or file.endswith('.gif') or file.endswith('.mp4') or file.endswith('.webm') %}
-          <a href="{{ url_for('view', filename=file) }}" class="view-button">View</a>
-        {% endif %}
       </div>
-      {% if loop.index % 3 == 0 %}
-        <div class="clear"></div>
-      {% endif %}
     {% endfor %}
   </body>
 </html>
