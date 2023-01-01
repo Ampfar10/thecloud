@@ -1,9 +1,10 @@
+<!DOCTYPE html>
 <html>
   <head>
     <style>
       body {
-        background-color: black;
-        color: white;
+        background-color: white;
+        color: black;
       }
       .picture {
         display: inline-block;
@@ -13,17 +14,34 @@
         background-position: center;
         margin: 10px;
       }
+      .cool-button {
+        background-color: #4caf50;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+      }
     </style>
   </head>
   <body>
+    <form method="GET">
+      <input type="text" name="search" placeholder="Search for a file...">
+      <input type="submit" value="Search" class="cool-button">
+    </form>
+
     <form method="POST" enctype="multipart/form-data">
       <input type="file" name="file">
-      <input type="submit" value="Upload">
+      <input type="submit" value="Upload" class="cool-button">
     </form>
 
     {% for file in files %}
       <div class="picture" style="background-image: url({{ url_for('static', filename='uploads/' + file) }});">
-        <a href="{{ url_for('download', filename=file) }}">Download</a>
+        {{ file }}
+        <br>
+        <a href="{{ url_for('download', filename=file) }}" class="cool-button">Download</a>
       </div>
     {% endfor %}
   </body>
