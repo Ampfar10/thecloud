@@ -1,13 +1,13 @@
 import os
-from flask import Flask, request, redirect, url_for, render_template
+from flask import Flask, request, redirect, url_for, render_template, send_from_directory 
 
 app = Flask(__name__)
 
 UPLOAD_FOLDER = '/home/ubuntu/wifi/upload'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+#ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() #in ALLOWED_EXTENSIONS
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
