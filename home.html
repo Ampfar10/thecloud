@@ -26,7 +26,10 @@
       }
       .cool-button:hover {
         background-color: #0069d9;
-  } 
+      }
+      .clear {
+        clear: both;
+      }
     </style>
   </head>
   <body>
@@ -46,6 +49,9 @@
         <br>
         <a href="{{ url_for('download', filename=file) }}" class="cool-button">Download</a>
       </div>
+      {% if loop.index % 3 == 0 %}
+        <div class="clear"></div>
+      {% endif %}
     {% endfor %}
   </body>
 </html>
