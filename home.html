@@ -27,19 +27,6 @@
       .cool-button:hover {
         background-color: #0069d9;
       }
-      .delete-button {
-        background-color: #dc3545;
-        border: none;
-        color: white;
-        padding: 10px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-      }
-      .delete-button:hover {
-        background-color: #c82333;
-      }
       .view-button {
         background-color: #17a2b8;
         border: none;
@@ -74,9 +61,8 @@
         {{ file }}
         <br>
         <a href="{{ url_for('download', filename=file) }}" class="cool-button">Download</a>
-        <a href="{{ url_for('delete', filename=file) }}" class="delete-button">Delete</a>
-        {% if file.endswith('.png') or file.endswith('.jpg') or file.endswith('.gif') or file.endswith('.mp4') %}
-          <a href="{{ url_for('view', filename=file) }}" class="view-button" target="_blank">View</a>
+        {% if file.endswith('.png') or file.endswith('.jpg') or file.endswith('.gif') or file.endswith('.mp4') or file.endswith('.webm') %}
+          <a href="{{ url_for('view', filename=file) }}" class="view-button">View</a>
         {% endif %}
       </div>
       {% if loop.index % 3 == 0 %}
