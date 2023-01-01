@@ -36,6 +36,18 @@ def home():
 
     return render_template('home.html', files=files)
 
+@app.route('/upload', methods=['POST'])
+def upload():
+    # Get a list of the files uploaded
+    uploaded_files = request.files.getlist("file")
+
+    # Loop through the uploaded files
+    for uploaded_file in uploaded_files:
+            # Save the file to the server
+            uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'], uploaded_file.filename))
+    # Redirect the user to the uploaded files page
+    return redirect(url_for('uploaded_files'))
+
 @app.route('/download/<filename>')
 def download(filename):
     # Send the file as an attachment
