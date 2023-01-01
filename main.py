@@ -1,30 +1,38 @@
-import subprocess
-from flask import Flask, render_template
+import os
+from flask import Flask, request, redirect, url_for, render_template
 
 app = Flask(__name__)
 
-def get_wifi_info():
-    # Run the 'nmcli --terse --fields name,ssid,bssid,signal device wifi list' command to get a list of WiFi profiles
-    profiles = subprocess.run(['nmcli', '--terse', '--fields', 'name,ssid,bssid,signal', 'device', 'wifi', 'list'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+UPLOAD_FOLDER = '/home/ubuntu/wifi'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-    # Extract the WiFi names and passwords from the command output
-    wifi_info = []
-    for profile in profiles.split('\n'):
-        fields = profile.split(':')
-        if len(fields) < 3:
-            continue
-        name = fields[1]
-        password = None
-        if fields[2] == '--':
-            password = fields[3]
-        wifi_info.append({'name': name, 'password': password})
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-    return wifi_info
-
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
-    wifi_info = get_wifi_info()
-    return render_template('home.html', wifi_info=wifi_info)
+    if request.method == 'POST':
+        # Check if a file was uploaded
+        if 'file' not in request.files:
+            return redirect(request.url)
+        file = request.files['file']
+
+        # Check if the file is allowed
+        if file.filename == '':
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            # Save the file to the upload folder
+            filename = file.filename
+            file.save(os.path.join(UPLOAD_FOLDER, filename))
+            return redirect(url_for('home'))
+    # Get a list of the files in the upload folder
+    files = os.listdir(UPLOAD_FOLDER)
+    return render_template('home.html', files=files)
+
+@app.route('/download/<filename>')
+def download(filename):
+    # Send the file as an attachment
+    return send_from_directory(UPLOAD_FOLDER, filename, as_attachment=True)
 
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0", port=2345)
+    app.run(host="0.0.0.0")
