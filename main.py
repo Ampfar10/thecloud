@@ -3,7 +3,7 @@ from flask import Flask, request, redirect, url_for, render_template
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = '/home/ubuntu/wifi'
+UPLOAD_FOLDER = '/home/ubuntu/wifi/upload'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 def allowed_file(filename):
@@ -11,6 +11,14 @@ def allowed_file(filename):
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    search_query = request.form.get('search')
+    if search_query:
+        # Filter the list of files based on the search query
+        files = [f for f in os.listdir(UPLOAD_FOLDER) if search_query in f]
+    else:
+        # Get a list of all the files in the upload folder
+        files = os.listdir(UPLOAD_FOLDER)
+
     if request.method == 'POST':
         # Check if a file was uploaded
         if 'file' not in request.files:
@@ -25,8 +33,7 @@ def home():
             filename = file.filename
             file.save(os.path.join(UPLOAD_FOLDER, filename))
             return redirect(url_for('home'))
-    # Get a list of the files in the upload folder
-    files = os.listdir(UPLOAD_FOLDER)
+
     return render_template('home.html', files=files)
 
 @app.route('/download/<filename>')
@@ -35,4 +42,4 @@ def download(filename):
     return send_from_directory(UPLOAD_FOLDER, filename, as_attachment=True)
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", port=2345)
