@@ -38,4 +38,4 @@ def home():
     return render_template('home.html', wifi_info=wifi_info)
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=2345)
+    app.run(debug=True, host="0.0.0.0", port=2345)
