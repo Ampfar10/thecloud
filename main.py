@@ -43,10 +43,13 @@ def upload():
 
     # Loop through the uploaded files
     for uploaded_file in uploaded_files:
-            # Save the file to the server
-            uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'], uploaded_file.filename))
+        print(uploaded_file.mimetype)  # Debug: print the MIME type
+        print(uploaded_file.filename)
+        # Save the file to the server
+        uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'], uploaded_file.filename))
     # Redirect the user to the uploaded files page
     return redirect(url_for('uploaded_files'))
+
 
 @app.route('/download/<filename>')
 def download(filename):
