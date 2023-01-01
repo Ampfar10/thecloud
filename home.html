@@ -1,60 +1,25 @@
-<!-- home.html -->
+<style>
+  body {
+    background-color: black;
+    color: white;
+  }
+  .picture {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    margin: 10px;
+  }
+</style>
 
-<html>
-  <head>
-    <title>WiFi Information</title>
-  </head>
-  <body style="text-align: center; font-weight: bold; font-family: Arial, sans-serif;">
-    <h1>WiFi Information</h1>
-    <div style="display: flex; justify-content: center; align-items: center;">
-      <table>
-        <tr>
-          <th>WiFi Name</th>
-          <th>Password</th>
-        </tr>
-        {% for wifi in wifi_info %}
-        <tr>
-          <td>{{ wifi.name }}</td>
-          <td>{{ wifi.password }}</td>
-        </tr>
-        {% endfor %}
-      </table>
-    </div>
-    <br>
-    <button style="color: white; background-color: green;" onclick="downloadFile()">Save</button>
-  </body>
-  <script>
-    function downloadFile() {
-      // Get the user agent string of the browser
-      var userAgent = navigator.userAgent;
+<form method="POST" enctype="multipart/form-data">
+  <input type="file" name="file">
+  <input type="submit" value="Upload">
+</form>
 
-      // Extract the device name from the user agent string
-      var deviceName = userAgent.split(' ')[1];
-
-      // Generate the file content
-      var content = `Device: ${deviceName}\nWiFi Name,Password\n`;
-      for (var i = 0; i < wifi_info.length; i++) {
-        content += `${wifi_info[i].name},${wifi_info[i].password}\n`;
-      }
-
-      // Create a Blob object with the file content
-      var blob = new Blob([content], { type: 'text/plain' });
-
-      // Create a URL for the Blob object
-      var url = URL.createObjectURL(blob);
-
-      // Create a link element and set its attributes
-      var link = document.createElement('a');
-      link.href = url;
-      link.download = 'wifi_info.txt';
-
-      // Append the link element to the document and click it
-      document.body.appendChild(link);
-      link.click();
-
-      // Remove the link element from the document
-      document.body.removeChild(link);
-    }
-  </script>
-</html>
- 
+{% for file in files %}
+  <div class="picture" style="background-image: url({{ url_for('static', filename='uploads/' + file) }});">
+    <a href="{{ url_for('download', filename=file) }}">Download</a>
+  </div>
+{% endfor %}
