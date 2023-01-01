@@ -3,7 +3,7 @@ from flask import Flask, request, redirect, url_for, render_template, send_from_
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = '/home/ubuntu/wifi/upload'
+UPLOAD_FOLDER = '/home/ubuntu/thecloud'
 #ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 def allowed_file(filename):
@@ -57,4 +57,4 @@ def download(filename):
     return send_from_directory(UPLOAD_FOLDER, filename, as_attachment=True)
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=2345)
+    app.run(debug=True, host="0.0.0.0", port=2345)
